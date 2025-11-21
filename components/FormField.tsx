@@ -1,7 +1,6 @@
-import React from 'react'
-import { FormDescription, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { FormDescription, FormControl, FormItem, FormLabel, FormMessage, FormField as ShadcnFormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Control, Controller, FieldValue, FieldValues } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 
 interface FormFieldProps< T extends FieldValues>{
     control: Control<T>;
@@ -11,27 +10,30 @@ interface FormFieldProps< T extends FieldValues>{
     type?: 'text' | 'email' | 'password' | 'file'
 }
 
-const FormField = {(control, name, label, placeholder, type = "text")}: FormFieldProps<T> => (
+const FormField = <T extends FieldValues>({control, name, label, placeholder, type = "text"}: FormFieldProps<T> )=> {
+    return (
     <Controller 
-         control={control} 
+         
          name={name}
+         control={control} 
          render={({ field }) => (
         <FormItem>
-              <FormLabel className='label'>Username</FormLabel>
+              <FormLabel className='label'>{label}</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input 
+                    className='input'
+                    placeholder={placeholder} 
+                    type={type}
+                    {...field} 
+                  />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+              
               <FormMessage />
             </FormItem>
 
     )}
-            
-          
-
-
+    />
 )
+}
 
 export default FormField
